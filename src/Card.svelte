@@ -11,7 +11,9 @@
 
 <div style="width: 271px; height: 376px" class="todo-card">
   <div class="card-title-line">
-      <div class="card-title">{ todo.name }</div>
+      <div class="card-title" on:click="{ () => updateTodoListName(idx) }">
+          { todo.name }
+      </div>
       <div
           style="width: 25px; height: 25px"
           class="trash-icn"
@@ -31,7 +33,7 @@
       {/if}
   </div>
   <div
-      style="overflow: scroll; flex-direction: column; gap: 5px; flex: 1; display: flex"
+      style="overflow: scroll; flex-direction: column; gap: 4px; flex: 1; display: flex"
       id="{ 'todoitems' + idx }">
       {#each todo.todoItems as td, tdidx}
       <div class="todo-line">
@@ -41,7 +43,11 @@
               type="checkbox"
               bind:checked="{td.completed}"
               on:input="{ (e) => setTodoItemCompleted(idx, tdidx, e.target.checked) }" />
-          <div class="todo-text">{ td.value }</div>
+          <div
+              class="todo-text"
+              on:click="{ () =>  updateTodoItemName(idx, tdidx) }">
+              { td.value }
+          </div>
           <div
               style="width: 18px; height: 18px"
               class="trash-icn"
@@ -68,7 +74,6 @@
   }
   .todo-line:hover {
     background-color: #88888855 !important;
-    mix-blend-mode: lighten;
   }
   .todo-text {
     font-size: 14px;
