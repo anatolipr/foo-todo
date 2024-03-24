@@ -1,47 +1,42 @@
 <script lang="ts">
-  import svelteLogo from './assets/svelte.svg'
-  import viteLogo from '/vite.svg'
-  import Counter from './lib/Counter.svelte'
+  import Card from './Card.svelte';
+  import Prompt from './components/prompt/Prompt.svelte'
+  import { $todo as todo, addTodoList } from './todo/todoStore.js';
 </script>
+<div style="position: relative; width: auto" class="todo-app">
+  <div style="font-size: 34px">Foo Todo:</div>
+  <div style="width: 808px; overflow: scroll" class="todo-ribbon">
+      {#each $todo.todoLists as todoList, idx}
+      <Card todo="{todoList}" idx="{idx}" />
+      {/each}
 
-<main>
-  <div>
-    <a href="https://vitejs.dev" target="_blank" rel="noreferrer">
-      <img src={viteLogo} class="logo" alt="Vite Logo" />
-    </a>
-    <a href="https://svelte.dev" target="_blank" rel="noreferrer">
-      <img src={svelteLogo} class="logo svelte" alt="Svelte Logo" />
-    </a>
+      <div
+          style="width: 46px; height: 46px"
+          class="todo-plus-btn"
+          on:click="{() => addTodoList('Unnamed', true)}"></div>
   </div>
-  <h1>Vite + Svelte</h1>
-
-  <div class="card">
-    <Counter />
-  </div>
-
-  <p>
-    Check out <a href="https://github.com/sveltejs/kit#readme" target="_blank" rel="noreferrer">SvelteKit</a>, the official Svelte app framework powered by Vite!
-  </p>
-
-  <p class="read-the-docs">
-    Click on the Vite and Svelte logos to learn more
-  </p>
-</main>
+</div>
+<Prompt />
 
 <style>
-  .logo {
-    height: 6em;
-    padding: 1.5em;
-    will-change: filter;
-    transition: filter 300ms;
+  .todo-ribbon {
+    gap: 18px;
+    padding: 18px;
+    border-radius: 2px;
+    background-color: #333333;
+    display: flex;
+    resize: horizontal;
   }
-  .logo:hover {
-    filter: drop-shadow(0 0 2em #646cffaa);
+
+  .todo-app {
+    font-family: 'McLaren';
+    box-shadow: 0px 0px 0px 0px #000000ff;
   }
-  .logo.svelte:hover {
-    filter: drop-shadow(0 0 2em #ff3e00aa);
+
+  .todo-plus-btn {
+    content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1em' height='1em' viewBox='0 0 256 256'%3E%3Cpath fill='white' d='M28 64a12 12 0 0 1 12-12h176a12 12 0 0 1 0 24H40a12 12 0 0 1-12-12m12 76h176a12 12 0 0 0 0-24H40a12 12 0 0 0 0 24m104 40H40a12 12 0 0 0 0 24h104a12 12 0 0 0 0-24m88 0h-12v-12a12 12 0 0 0-24 0v12h-12a12 12 0 0 0 0 24h12v12a12 12 0 0 0 24 0v-12h12a12 12 0 0 0 0-24'/%3E%3C/svg%3E");
+    cursor: pointer
   }
-  .read-the-docs {
-    color: #888;
-  }
+
+  * {box-sizing: border-box}
 </style>
