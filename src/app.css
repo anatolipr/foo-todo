@@ -4,6 +4,8 @@ body {
     color: aliceblue;
     background-color: #3f3f3f;
     font-family: 'McLaren';
+    padding: 0;
+    margin: 0;
 }
 
 input, button, select, textarea {
