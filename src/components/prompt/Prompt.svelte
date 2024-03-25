@@ -3,8 +3,7 @@
   import { cancel, ok, input, setColor, setEmoji, prompt, type PromptModal } from './prompt.js'
 
   const colors = ['#da5204','#a22222','#742880','#007a9f','#23367a','#1e6123','#6b6b6b'];
-  const emojis = ['👍','👎','⛔️','✅','❓','❗','❌','⭐️','🙂','😕','🎗️','🧩','🦠',
-  '👀','⏰','☀️','🌧️','▶️','⏸️','⏹️','❤️','☕️','⏳','📝','👮','🧠','💩'];
+  const emojis = ['👍','👎','⛔️','✅','❓','❗','❌','⭐️','🙂','😕','🎗️','🧩','🦠','👀','⏰','☀️','🌧️','▶️','⏸️','⏹️','❤️','☕️','⏳','📝','👮','🧠','💩'];
 </script>
 
 {#if $prompt?.visible}
@@ -20,7 +19,7 @@
   align-items: center;
 ">
   <div
-      style="position: relative; width: 569px; gap: 5px; padding: 11px; border-radius: 8px; background-color: #333333; display: flex; box-shadow: 0px 0px 27px 0px #000000ff; flex-direction: column"
+      style="position: relative; padding: 11px; border-radius: 8px; background-color: #333333; box-shadow: 0px 0px 27px 0px #000000ff; resize: both; flex-direction: column; flex-wrap: wrap; gap: 5px; display: flex"
       on:click|stopPropagation="{() => {}}">
       <div class="prompt-title-wrap">
           <div>{@html $prompt.value.emoji || ''}</div>
@@ -32,7 +31,7 @@
       </div>
       <div class="prompt-input-wrap">
           <textarea
-              style="width: 254px; background-color: {$prompt.value.color == undefined ? 'inherit' : $prompt.value.color}"
+              style="background-color: {$prompt.value.color == undefined ? 'inherit' : $prompt.value.color}"
               class="text-input"
               on:input="{(e) => input(e.target.value)}"
               on:keydown="{(e) => { (e.key == 'Enter' && e.metaKey) && ok()}}"
@@ -94,6 +93,7 @@
     justify-content: center;
     color: white;
     flex: 1;
+    resize: both;
   }
 
   .close-cross {
