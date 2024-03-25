@@ -48,6 +48,14 @@ export async function addTodoList(name: string = "Unnamed", shouldPrompt: boolea
     todoLists.push(newTodoList)
     $todo.set({todoLists});
 
+    await tick()
+
+    const rootEl = document.getElementById('root');
+    if (rootEl) {
+        rootEl.scrollLeft = rootEl.scrollWidth;
+    }
+    
+
 }
 
 export function setTodoListNewValue(listIndex: number, newValue: string): void {

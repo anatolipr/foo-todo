@@ -3,9 +3,11 @@
   import Prompt from './components/prompt/Prompt.svelte'
   import { $todo as todo, addTodoList } from './todo/todoStore.js';
 </script>
-<div style="position: relative; width: auto" class="todo-app">
+<div
+  style="position: relative; overflow: hidden; max-width: 100vw; width: 100vw"
+  class="todo-app">
   <div style="font-size: 34px">Foo Todo:</div>
-  <div style="width: 808px; overflow: scroll" class="todo-ribbon">
+  <div style="overflow: scroll" class="todo-ribbon" id="root">
       {#each $todo.todoLists as todoList, idx}
       <Card todo="{todoList}" idx="{idx}" />
       {/each}
@@ -25,7 +27,7 @@
     border-radius: 2px;
     background-color: #333333;
     display: flex;
-    resize: horizontal;
+    width: 100%;
   }
 
   .todo-app {
