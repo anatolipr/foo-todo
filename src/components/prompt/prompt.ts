@@ -1,18 +1,19 @@
 import Foo from 'avos/src/foo-store/foo.js'
 import { tick } from 'svelte'
+import type { TodoListTextAndMeta } from '../../todo/todoTypes';
 
 export type PromptModal = {
     visible: boolean;
-    value?: string;
+    value: TodoListTextAndMeta;
     title?: string;
     button?: string;
 }
 
 export const prompt: Foo<PromptModal> = new Foo();
 
-let resolve: (value: string | undefined) => void;
+let resolve: (value: TodoListTextAndMeta | undefined) => void;
 
-export async function doPrompt(title: string, value: string = '', button: string = "OK"): Promise<string | undefined> {
+export async function doPrompt(title: string, value: TodoListTextAndMeta = {text:''}, button: string = "OK"): Promise<TodoListTextAndMeta | undefined> {
     
     prompt.set({
         visible: true, value, button, title
@@ -26,18 +27,34 @@ export async function doPrompt(title: string, value: string = '', button: string
     });
 }
 
+function hide(): void {
+    prompt.update(p => {p.visible = false; return p;});
+}
+
 export function cancel(): void {
     resolve(undefined);
-    prompt.set({visible: false})
+    hide()
 }
 
 export function ok(): void {
     resolve(prompt.get()?.value);
-    prompt.set({visible: false});
+    hide()
 }
 
 export function input(value: string): void {
     const p = prompt.get();
-    p.value = value;
+    p.value.text = value;
+    prompt.set(p)
+}
+
+export function setColor(color: string): void {
+    const p = prompt.get();
+    p.value.color = color;
+    prompt.set(p)
+}
+
+export function setEmoji(emoji: string): void {
+    const p = prompt.get();
+    p.value.emoji = emoji;
     prompt.set(p)
 }

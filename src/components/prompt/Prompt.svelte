@@ -1,6 +1,10 @@
 <script lang="ts">
 
-  import { cancel, ok, input, prompt, type PromptModal } from './prompt.js'
+  import { cancel, ok, input, setColor, setEmoji, prompt, type PromptModal } from './prompt.js'
+
+  const colors = ['#da5204','#a22222','#742880','#007a9f','#23367a','#1e6123','#6b6b6b'];
+  const emojis = ['👍','👎','⛔️','✅','❓','❗','❌','⭐️','🙂','😕','🎗️','🧩','🦠',
+  '👀','⏰','☀️','🌧️','▶️','⏸️','⏹️','❤️','☕️','⏳','📝','👮','🧠','💩'];
 </script>
 
 {#if $prompt?.visible}
@@ -19,6 +23,7 @@
       style="position: relative; width: 569px; gap: 5px; padding: 11px; border-radius: 8px; background-color: #333333; display: flex; box-shadow: 0px 0px 27px 0px #000000ff; flex-direction: column"
       on:click|stopPropagation="{() => {}}">
       <div class="prompt-title-wrap">
+          <div>{@html $prompt.value.emoji || ''}</div>
           <div style="flex: 1">{$prompt.title}</div>
           <div
               style="width: 26px; height: 26px"
@@ -26,22 +31,56 @@
               on:click="{cancel}"></div>
       </div>
       <div class="prompt-input-wrap">
-          <input
-              style="width: 208px; height: 47px"
+          <textarea
+              style="width: 254px; background-color: {$prompt.value.color == undefined ? 'inherit' : $prompt.value.color}"
               class="text-input"
-              type="text"
               on:input="{(e) => input(e.target.value)}"
-              on:keydown="{(e) => {e.key == 'Enter' && ok()}}"
+              on:keydown="{(e) => { (e.key == 'Enter' && e.metaKey) && ok()}}"
               on:keydown="{(e) => {e.key == 'Escape' && cancel()}}"
               id="promptInput"
-              bind:value="{ $prompt.value }" />
-          <button
-              style="width: 105px; height: 47px"
-              class="prompt-btn"
-              type="button"
-              on:click="{ok}">
-              {$prompt.button}
-          </button>
+              bind:value="{ $prompt.value.text }"></textarea>
+          <div
+              style="width: 116px; flex-direction: column; gap: 4px; display: flex">
+              <button
+                  style="height: 47px"
+                  class="prompt-btn"
+                  type="button"
+                  on:click="{ok}">
+                  {$prompt.button}
+              </button>
+              <div
+                  style="padding: 4px; align-items: flex-start; flex-wrap: wrap; align-content: flex-start; gap: 4px; display: flex">
+                  <div
+                      style="width: 24px; height: 24px; border: 1px solid; border-color: #525252; background-color: #2b2b2b"
+                      class="todo-color"
+                      on:click="{ () => setColor() }">
+                      X
+                  </div>
+                  {#each colors as color}
+                  <div
+                      style="width: 24px; height: 24px; background-color: {color}"
+                      class="todo-color"
+                      on:click="{ () => setColor(color) }"></div>
+                  {/each}
+              </div>
+              <div
+                  style="padding: 4px; align-items: flex-start; flex-wrap: wrap; align-content: flex-start; gap: 4px; flex: 1; display: flex">
+                  <div
+                      style="width: 24px; height: 24px"
+                      class="todo-emoji-pick"
+                      on:click="{ () => setEmoji() }">
+                      X
+                  </div>
+                  {#each emojis as emoji}
+                  <div
+                      style="width: 24px; height: 24px; background-color: #2b2b2b"
+                      class="todo-emoji-pick"
+                      on:click="{ () => setEmoji(emoji) }">
+                      {emoji}
+                  </div>
+                  {/each}
+              </div>
+          </div>
       </div>
   </div>
 </div>
@@ -53,7 +92,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: black!important;
     color: white;
     flex: 1;
   }
@@ -64,8 +102,9 @@
   }
 
   .prompt-title-wrap {
+    align-items: center;
+    gap: 6px;
     display: flex;
-    align-items: center
   }
 
   .prompt-input-wrap {
@@ -80,7 +119,25 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: white
+    color: white;
+  }
+
+  .todo-color {
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    cursor: pointer;
+  }
+
+  .todo-emoji-pick {
+    border: 1px solid;
+    border-color: #525252;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    cursor: pointer;
   }
 
   * {box-sizing: border-box}

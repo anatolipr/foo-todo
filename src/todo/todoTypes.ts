@@ -1,5 +1,6 @@
 
 export type TodoMain = {
+    name?: string;
     todoLists: TodoList[],
     key?: number
 }
@@ -10,6 +11,12 @@ export type TodoStats = {
     unfinishedText: string;
 };
 
+export type TodoListTextAndMeta = {
+    text:        string;
+    color?:      string;
+    emoji?:      string;
+}
+
 export type TodoList = {
     _id:         string;
     _rev:        string;
@@ -18,12 +25,17 @@ export type TodoList = {
     todoItems:   TodoItem[];
     newValue:    string;
     stats:       TodoStats;
-    key?:        number
+    color?:      string;
+    emoji?:      string;
+    key?:        number;
 }
 
 export type TodoItem = {
     createdTime:   number;
     completedTime?: number;
     completed:     boolean;
-    value:         string;
+    value:        string;
+    color?:       string;
+    emoji?:      string;
 }
+

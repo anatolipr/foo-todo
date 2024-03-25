@@ -1,4 +1,4 @@
-import type {TodoItem, TodoList, TodoMain, TodoStats} from './todoTypes.js'
+import type {TodoItem, TodoList, TodoListTextAndMeta, TodoMain, TodoStats} from './todoTypes.js'
 
 import Foo from 'avos/src/foo-store/foo.js'
 import { tick } from 'svelte'
@@ -22,19 +22,22 @@ $todo.subscribe((todo: Readonly<TodoMain>) => {
 
 export async function addTodoList(name: string = "Unnamed", shouldPrompt: boolean = false): Promise<void> {
 
-    
+    let input: TodoListTextAndMeta | undefined;
+
     if (shouldPrompt) {
-        const input = await doPrompt('List name', name);
-        if (input === undefined || input.trim() === '') {
+        input = await doPrompt('List name', {text: name});
+        if (input === undefined || input.text.trim() === '') {
             return;
         }
-        name = input;
     }
+
     const newTodoList: TodoList = {
         _id: uuidv4(),
         _rev: 'a',
         createdTime: getCurrentEpoch(),
-        name,
+        name: input!.text,
+        emoji: input?.emoji,
+        color: input?.color,
         todoItems: [],
         newValue:'',
         stats: getTodoStats([]),
@@ -208,13 +211,21 @@ export function getNumberOfCompletedTodos(todos: TodoItem[]): number {
 export async function updateTodoListName(listIndex: number): Promise<void> {
     const todoLists = $todo.get().todoLists;
     
-    const value: string | undefined = 
-        await doPrompt('New list name', todoLists[listIndex].name);
+    const todoList: TodoList = todoLists[listIndex];
+
+    const value: TodoListTextAndMeta | undefined = 
+        await doPrompt('New list name', {
+            text: todoList.name,
+            emoji: todoList.emoji,
+            color: todoList.color
+        });
         
         
-    if (value !== undefined && value.trim() !== '') {
-        todoLists[listIndex].name = value;
-        todoLists[listIndex].key = Math.random()
+    if (value !== undefined && value.text.trim() !== '') {
+        todoList.name = value.text;
+        todoList.emoji = value.emoji;
+        todoList.color = value.color;
+        todoLists[listIndex].key = Math.random();
         $todo.set({todoLists});
     }
 
@@ -224,12 +235,21 @@ export async function updateTodoItemName(listIndex: number, todoItemIndex: numbe
 
     const todoLists = $todo.get().todoLists;
     
-    const value: string | undefined = 
-        await doPrompt('TODO value', todoLists[listIndex].todoItems[todoItemIndex].value);
+    const todoList = todoLists[listIndex];
+    const todoItem = todoList.todoItems[todoItemIndex];
+    const value: TodoListTextAndMeta | undefined = 
+        await doPrompt('TODO value', {
+            text: todoItem.value,
+            emoji: todoItem.emoji,
+            color: todoItem.color
+        });
 
-    if (value !== undefined && value.trim() !== '') {
-        todoLists[listIndex].todoItems[todoItemIndex].value = value;
-        todoLists[listIndex].key = Math.random()
+    if (value !== undefined && value.text.trim() !== '') {
+        todoItem.value = value.text;
+        todoItem.emoji = value.emoji;
+        todoItem.color = value.color;
+
+        todoList.key = Math.random();
         $todo.set({todoLists});
     }
 

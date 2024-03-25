@@ -7,15 +7,31 @@
   import { addTodo, removeTodoItem, clearTodoItems,
   setTodoListNewValue, removeTodoList, setTodoItemCompleted,
   updateTodoItemName, updateTodoListName } from './todo/todoStore.js';
+
+  function crop(s: string) {
+    if (s?.indexOf('...') > -1) {
+      return s.split('...')[0] + '...'
+    } else {
+      return s;
+    }
+  }
 </script>
 
-<div style="width: 271px; height: 376px" class="todo-card">
+<div
+  style="width: 271px; height: 376px; background-color: {todo.color}"
+  class="todo-card">
   <div class="card-title-line">
       <div class="card-title" on:click="{ () => updateTodoListName(idx) }">
-          { todo.name }
+          {@html todo.emoji || ''}
       </div>
       <div
-          style="width: 25px; height: 25px"
+          style="flex: 1"
+          class="card-title"
+          on:click="{ () => updateTodoListName(idx) }">
+          { crop(todo.name) }
+      </div>
+      <div
+          style="width: 25px; height: 30px"
           class="trash-icn"
           on:click="{ () => removeTodoList(idx) }"></div>
   </div>
@@ -36,17 +52,20 @@
       style="overflow: scroll; flex-direction: column; gap: 4px; flex: 1; display: flex"
       id="{ 'todoitems' + idx }">
       {#each todo.todoItems as td, tdidx}
-      <div class="todo-line">
+      <div
+          style="background-color: {td.color || 'inherit'}"
+          class="todo-line">
           <input
               style="width: 24px; height: 24px"
               class="todo-check"
               type="checkbox"
               bind:checked="{td.completed}"
               on:input="{ (e) => setTodoItemCompleted(idx, tdidx, e.target.checked) }" />
+          <div>{@html td.emoji || ''}</div>
           <div
               class="todo-text"
               on:click="{ () =>  updateTodoItemName(idx, tdidx) }">
-              { td.value }
+              { crop(td.value) }
           </div>
           <div
               style="width: 18px; height: 18px"
@@ -106,11 +125,11 @@
   .card-title {
     font-size: 23px;
     font-weight: 300;
-    flex: 1
+    overflow-wrap: anywhere;
   }
 
   .card-title-line {
-    gap: 1px;
+    gap: 4px;
     font-size: 16px;
     font-weight: 100;
     display: flex;
@@ -122,10 +141,11 @@
   }
 
   .clear-btn {
-    ;
+    border: 1px solid;
     border-radius: 4px;
+    border-color: #000000;
     background-color: #c75454;
-    cursor: pointer
+    cursor: pointer;
   }
 
   * {box-sizing: border-box}
