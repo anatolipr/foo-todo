@@ -15,7 +15,7 @@ global.confirm = () => true
 
 test('addTodoList', () => {
 
-    $todo.set({'todoLists': []})
+    $todo.set({'todoLists': [],minimizedTodoLists: []})
 
     addTodoList();
     addTodoList('yyy');
@@ -31,7 +31,7 @@ test('addTodoList', () => {
 
 test('removeTodoList', () => {
 
-    $todo.set({'todoLists': []})
+    $todo.set({'todoLists': [],minimizedTodoLists: []})
 
     addTodoList();
     addTodoList('yyy');
@@ -46,7 +46,7 @@ test('removeTodoList', () => {
 })
 
 test('setTodoListName', () => {
-    $todo.set({'todoLists': []})
+    $todo.set({'todoLists': [],minimizedTodoLists: []})
     addTodoList('xxx');
 
     setTodoListName(0, 'hello')
@@ -56,7 +56,7 @@ test('setTodoListName', () => {
 })
 
 test('setTodoListNewValue', () => {
-    $todo.set({'todoLists': []})
+    $todo.set({'todoLists': [],minimizedTodoLists: []})
     addTodoList('xxx');
 
     setTodoListNewValue(0, 'hello')
@@ -68,7 +68,7 @@ test('setTodoListNewValue', () => {
 // ***** Lists -> TODOs *****
 
 test('addTodoItem', () => {
-    $todo.set({'todoLists': []})
+    $todo.set({'todoLists': [],minimizedTodoLists: []})
 
     addTodoList();
 
@@ -89,7 +89,7 @@ test('addTodoItem', () => {
 })
 
 test('removeTodoItem', () => {
-    $todo.set({'todoLists': []})
+    $todo.set({'todoLists': [],minimizedTodoLists: []})
 
     addTodoList();
 
@@ -109,7 +109,7 @@ test('removeTodoItem', () => {
 
 
 test('setTodoItemValue', () => {
-    $todo.set({'todoLists': []})
+    $todo.set({'todoLists': [],minimizedTodoLists: []})
 
     addTodoList();
     setTodoListNewValue(0, 'uuu')
@@ -123,7 +123,7 @@ test('setTodoItemValue', () => {
 })
 
 test('setTodoItemCompleted', () => {
-    $todo.set({'todoLists': []})
+    $todo.set({'todoLists': [],minimizedTodoLists: []})
 
     addTodoList();
     setTodoListNewValue(0, 'uuu')
@@ -140,7 +140,7 @@ test('setTodoItemCompleted', () => {
 })
 
 test('clearTodoItems', () => {
-    $todo.set({'todoLists': []})
+    $todo.set({'todoLists': [],minimizedTodoLists: []})
 
     addTodoList();
     addTodoList();
@@ -222,4 +222,10 @@ test('getNumberOfCompletedTodos', () => {
             value: 'x'
         }
     ])).toBe(1)
+})
+
+
+// **** minimized ****
+test('minimize', () => {
+    
 })

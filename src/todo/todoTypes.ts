@@ -2,6 +2,7 @@
 export type TodoMain = {
     name?: string;
     todoLists: TodoList[],
+    minimizedTodoLists: TodoList[]
     key?: number
 }
 

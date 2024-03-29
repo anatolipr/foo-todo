@@ -1,5 +1,6 @@
 <script lang="ts">
   import Card from './Card.svelte';
+  import Minimized from './Minimized.svelte';
   import Prompt from './components/prompt/Prompt.svelte'
   import { $todo as todo, addTodoList } from './todo/todoStore.js';
 </script>
@@ -17,6 +18,7 @@
           class="todo-plus-btn"
           on:click="{() => addTodoList('Unnamed', true)}"></div>
   </div>
+  <Minimized />
 </div>
 <Prompt />
 

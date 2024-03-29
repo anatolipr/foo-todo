@@ -1,20 +1,15 @@
 <script lang="ts">
   import { type TodoList } from "./todo/todoTypes";
+  import { crop } from "./util.js";
   export let todo: TodoList;
   export let idx: number;
 
 
-  import { addTodo, removeTodoItem, clearTodoItems,
+  import { addTodo, removeTodoItem, minimizeTodoList, clearTodoItems,
   setTodoListNewValue, removeTodoList, setTodoItemCompleted,
   updateTodoItemName, updateTodoListName } from './todo/todoStore.js';
 
-  function crop(s: string) {
-    if (s?.indexOf('...') > -1) {
-      return s.split('...')[0] + '...'
-    } else {
-      return s;
-    }
-  }
+
 </script>
 
 <div
@@ -30,6 +25,10 @@
           on:click="{ () => updateTodoListName(idx) }">
           { crop(todo.name) }
       </div>
+      <div
+          style="width: 25px; height: 30px"
+          class="minimize-icon"
+          on:click="{ () => minimizeTodoList(idx) }"></div>
       <div
           style="width: 25px; height: 30px"
           class="trash-icn"
@@ -105,7 +104,9 @@
     content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1em' height='1em' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='white' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M4 7h16m-10 4v6m4-6v6M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2l1-12M9 7V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3'/%3E%3C/svg%3E");
     cursor: pointer;
   }
-
+  .trash-icn:hover {
+    background-color: #444;
+  }
   .todo-check {
     margin: 0;
     flex-shrink: 0
@@ -148,5 +149,12 @@
     cursor: pointer;
   }
 
+  .minimize-icon {
+    content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1em' height='1em' viewBox='0 0 32 32'%3E%3Cpath fill='white' d='M5 5v22h22V5zm2 2h18v18H7zm2 13v2h14v-2z'/%3E%3C/svg%3E");
+    cursor: pointer
+  }
+  .minimize-icon:hover {
+    background-color: #444;
+  }
   * {box-sizing: border-box}
 </style>

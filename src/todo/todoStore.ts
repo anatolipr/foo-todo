@@ -11,11 +11,11 @@ import { doPrompt } from '../components/prompt/prompt.js';
 
 
 export const $todo: Foo<TodoMain> = new Foo<TodoMain>({
-    todoLists: JSON.parse(localStorage?.getItem('todoLists')||'[]')
+    ... JSON.parse(localStorage?.getItem('fooTodos')||'{ "todoLists":[], "minimizedTodoLists": [] }')
 })
 
 $todo.subscribe((todo: Readonly<TodoMain>) => {
-    localStorage?.setItem('todoLists', JSON.stringify(todo.todoLists))
+    localStorage?.setItem('fooTodos', JSON.stringify(todo))
 }, false)
 
 //***** Lists ******
@@ -46,7 +46,7 @@ export async function addTodoList(name: string = "Unnamed", shouldPrompt: boolea
 
     const todoLists = $todo.get().todoLists;
     todoLists.push(newTodoList)
-    $todo.set({todoLists});
+    $todo.update((todo) => { todo.todoLists = todoLists; return todo });
 
     await tick()
 
@@ -61,7 +61,7 @@ export async function addTodoList(name: string = "Unnamed", shouldPrompt: boolea
 export function setTodoListNewValue(listIndex: number, newValue: string): void {
     const todoLists = $todo.get().todoLists;
     todoLists[listIndex].newValue = newValue;
-    $todo.set({todoLists});
+    $todo.update(todo => {todo.todoLists = todoLists; return todo})
 }
 
 export function removeTodoList(listIndex: number) {
@@ -70,7 +70,7 @@ export function removeTodoList(listIndex: number) {
     }
     const todoLists = $todo.get().todoLists;
     todoLists.splice(listIndex, 1);
-    $todo.set({todoLists});
+    $todo.update(todo => {todo.todoLists = todoLists; return todo})
 
 }
 
@@ -80,7 +80,7 @@ export function setTodoListName(listIndex: number, name: string): void {
     const todoLists = $todo.get().todoLists;
     todoLists[listIndex].name = name;
     todoLists[listIndex].key = Math.random()
-    $todo.set({todoLists});
+    $todo.update(todo => {todo.todoLists = todoLists; return todo})
 
 }
 
@@ -108,7 +108,7 @@ export async function addTodo(listIndex: number): Promise<void> {
     todoLists[listIndex].newValue = ''
     
     todoLists[listIndex].key = Math.random()
-    $todo.set({todoLists});
+    $todo.update(todo => {todo.todoLists = todoLists; return todo})
 
     const objDiv = document.getElementById('todoitems' + listIndex)
     if (objDiv) {
@@ -134,7 +134,7 @@ export function removeTodoItem(listIndex: number, todoItemIndex: number): void {
     todoLists[listIndex].todoItems.splice(todoItemIndex, 1);
     todoLists[listIndex].stats = getTodoStats(todoLists[listIndex].todoItems)
     todoLists[listIndex].key = Math.random()
-    $todo.set({todoLists});
+    $todo.update(todo => {todo.todoLists = todoLists; return todo})
     
 }
 
@@ -143,7 +143,7 @@ export function setTodoItemValue(listIndex: number, todoItemIndex: number, value
     const todoLists = $todo.get().todoLists;
     todoLists[listIndex].todoItems[todoItemIndex].value = value;
     todoLists[listIndex].key = Math.random()
-    $todo.set({todoLists});
+    $todo.update(todo => {todo.todoLists = todoLists; return todo})
     
 }
 
@@ -156,7 +156,7 @@ export function setTodoItemCompleted(listIndex: number, todoItemIndex: number, c
 
     todoLists[listIndex].stats = getTodoStats(todoLists[listIndex].todoItems)
     todoLists[listIndex].key = Math.random()
-    $todo.set({todoLists});
+    $todo.update(todo => {todo.todoLists = todoLists; return todo})
 
 }
 
@@ -169,7 +169,7 @@ export function clearTodoItems(listIndex: number): void {
     todoLists[listIndex].stats = getTodoStats(todoLists[listIndex].todoItems)
     todoLists[listIndex].newValue = ''
     todoLists[listIndex].key = Math.random()
-    $todo.set({todoLists});
+    $todo.update(todo => {todo.todoLists = todoLists; return todo})
 
 }
 
@@ -234,7 +234,7 @@ export async function updateTodoListName(listIndex: number): Promise<void> {
         todoList.emoji = value.emoji;
         todoList.color = value.color;
         todoLists[listIndex].key = Math.random();
-        $todo.set({todoLists});
+        $todo.update(todo => {todo.todoLists = todoLists; return todo})
     }
 
 }
@@ -258,8 +258,30 @@ export async function updateTodoItemName(listIndex: number, todoItemIndex: numbe
         todoItem.color = value.color;
 
         todoList.key = Math.random();
-        $todo.set({todoLists});
+        $todo.update(todo => {todo.todoLists = todoLists; return todo})
     }
 
 }
 
+// minimzing
+
+export function minimizeTodoList(listIndex: number): void {
+
+    $todo.update(todo => {
+        todo.minimizedTodoLists.push({...todo.todoLists[listIndex]})
+        todo.todoLists.splice(listIndex, 1);
+        return todo;
+    })
+}
+
+// 
+
+export function restoreTodoList(listIndex: number): void {
+    $todo.update(todo => {
+        todo.todoLists.push({...todo.minimizedTodoLists[listIndex]})
+        todo.minimizedTodoLists.splice(listIndex, 1);
+        return todo;
+    })
+}
+
+// restoreTodoList
