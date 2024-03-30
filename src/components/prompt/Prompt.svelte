@@ -8,7 +8,7 @@
 
 {#if $prompt?.visible}
 <div
-  on:click="{cancel}"
+  on:mousedown="{cancel}"
   style="
   position: fixed; 
   top:0; left:0; 
@@ -20,7 +20,7 @@
 ">
   <div
       style="position: relative; padding: 11px; border-radius: 8px; background-color: #333333; box-shadow: 0px 0px 27px 0px #000000ff; resize: both; flex-direction: column; flex-wrap: wrap; gap: 5px; display: flex"
-      on:click|stopPropagation="{() => {}}">
+      on:mousedown|stopPropagation="{() => {}}">
       <div class="prompt-title-wrap">
           <div>{@html $prompt.value.emoji || ''}</div>
           <div style="flex: 1">{$prompt.title}</div>
