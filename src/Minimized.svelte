@@ -28,6 +28,7 @@
       background-color: #1c1c1c;
       border-radius: 7px;
       cursor: pointer;
+      flex-shrink: 0;
     }
 
     .minimized-container {
