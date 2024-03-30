@@ -5,9 +5,9 @@ import { tick } from 'svelte'
 
 import { v4 as uuidv4 } from 'uuid';
 
-import { getCurrentEpoch } from '../util.js';
+import { getCurrentEpoch } from '../../util.js';
 
-import { doPrompt } from '../components/prompt/prompt.js';
+import { doPrompt } from '../../components/prompt/prompt.js';
 
 
 export const $todo: Foo<TodoMain> = new Foo<TodoMain>({
@@ -22,7 +22,9 @@ $todo.subscribe((todo: Readonly<TodoMain>) => {
 
 export async function addTodoList(name: string = "Unnamed", shouldPrompt: boolean = false): Promise<void> {
 
-    let input: TodoListTextAndMeta | undefined;
+    let input: TodoListTextAndMeta | undefined = {
+        text: name
+    };
 
     if (shouldPrompt) {
         input = await doPrompt('List name', {text: name});

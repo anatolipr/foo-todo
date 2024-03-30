@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { type TodoList } from "./todo/todoTypes";
+  import { type TodoList } from "./data/todo/todoTypes";
   import { crop } from "./util.js";
   export let todo: TodoList;
   export let idx: number;
@@ -7,7 +7,7 @@
 
   import { addTodo, removeTodoItem, minimizeTodoList, clearTodoItems,
   setTodoListNewValue, removeTodoList, setTodoItemCompleted,
-  updateTodoItemName, updateTodoListName } from './todo/todoStore.js';
+  updateTodoItemName, updateTodoListName } from './data/todo/todoStore.js';
 
 
 </script>

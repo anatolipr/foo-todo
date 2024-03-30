@@ -1,7 +1,7 @@
 <script lang="ts">
-    import { restoreTodoList } from './todo/todoStore.js';
+    import { restoreTodoList } from './data/todo/todoStore.js';
     import { crop } from "./util.js";
-    import { $todo as todo } from './todo/todoStore.js';
+    import { $todo as todo } from './data/todo/todoStore.js';
 </script>
 {#if $todo.minimizedTodoLists.length > 0}
 <div style="overflow: scroll" class="minimized-container">

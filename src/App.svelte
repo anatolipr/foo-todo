@@ -2,7 +2,7 @@
   import Card from './Card.svelte';
   import Minimized from './Minimized.svelte';
   import Prompt from './components/prompt/Prompt.svelte'
-  import { $todo as todo, addTodoList } from './todo/todoStore.js';
+  import { $todo as todo, addTodoList } from './data/todo/todoStore.js';
 </script>
 <div
   style="position: relative; overflow: hidden; max-width: 100vw; width: 100vw"

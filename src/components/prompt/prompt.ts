@@ -1,6 +1,6 @@
 import Foo from 'avos/src/foo-store/foo.js'
 import { tick } from 'svelte'
-import type { TodoListTextAndMeta } from '../../todo/todoTypes';
+import type { TodoListTextAndMeta } from '../../data/todo/todoTypes';
 
 export type PromptModal = {
     visible: boolean;

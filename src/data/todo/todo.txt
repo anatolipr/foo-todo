@@ -1,0 +1,4 @@
+- backend
+- templates
+- card time view
+- hashtags

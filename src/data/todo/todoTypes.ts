@@ -1,5 +1,6 @@
 
 export type TodoMain = {
+    _id?: string;
     name?: string;
     todoLists: TodoList[],
     minimizedTodoLists: TodoList[]
