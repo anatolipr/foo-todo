@@ -7,9 +7,7 @@
 
   import { addTodo, removeTodoItem, minimizeTodoList, clearTodoItems,
   setTodoListNewValue, removeTodoList, setTodoItemCompleted,
-  updateTodoItemName, updateTodoListName } from './data/todo/todoStore.js';
-
-
+  updateTodoItemName, updateTodoListName, copyTodoList } from './data/todo/todoStore.js';
 </script>
 
 <div
@@ -29,6 +27,10 @@
           style="width: 25px; height: 30px"
           class="minimize-icon"
           on:click="{ () => minimizeTodoList(idx) }"></div>
+      <div
+          style="width: 25px; height: 30px"
+          class="copy-icon"
+          on:click="{ () => copyTodoList(idx) }"></div>
       <div
           style="width: 25px; height: 30px"
           class="trash-icn"
@@ -101,7 +103,7 @@
   }
 
   .trash-icn {
-    content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1em' height='1em' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='white' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M4 7h16m-10 4v6m4-6v6M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2l1-12M9 7V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3'/%3E%3C/svg%3E");
+    content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1em' height='1em' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='white' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M3 6h18m-2 0v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6m3 0V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2m-6 5v6m4-6v6'/%3E%3C/svg%3E");
     cursor: pointer;
   }
   .trash-icn:hover {
@@ -150,10 +152,17 @@
   }
 
   .minimize-icon {
-    content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1em' height='1em' viewBox='0 0 32 32'%3E%3Cpath fill='white' d='M5 5v22h22V5zm2 2h18v18H7zm2 13v2h14v-2z'/%3E%3C/svg%3E");
-    cursor: pointer
+    content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1em' height='1em' viewBox='0 0 24 24'%3E%3Cg fill='none' stroke='white' stroke-linecap='round' stroke-linejoin='round' stroke-width='2'%3E%3Cpath d='M12 2v8m4-4l-4 4l-4-4'/%3E%3Crect width='20' height='8' x='2' y='14' rx='2'/%3E%3Cpath d='M6 18h.01M10 18h.01'/%3E%3C/g%3E%3C/svg%3E");
+    cursor: pointer;
   }
   .minimize-icon:hover {
+    background-color: #444;
+  }
+  .copy-icon {
+    content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1em' height='1em' viewBox='0 0 24 24'%3E%3Cg fill='none' stroke='white' stroke-linecap='round' stroke-linejoin='round' stroke-width='2'%3E%3Crect width='8' height='4' x='8' y='2' rx='1' ry='1'/%3E%3Cpath d='M8 4H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2M16 4h2a2 2 0 0 1 2 2v4m1 4H11'/%3E%3Cpath d='m15 10l-4 4l4 4'/%3E%3C/g%3E%3C/svg%3E");
+    cursor: pointer
+  }
+  .copy-icon:hover {
     background-color: #444;
   }
   * {box-sizing: border-box}

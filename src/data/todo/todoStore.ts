@@ -5,7 +5,7 @@ import { tick } from 'svelte'
 
 import { v4 as uuidv4 } from 'uuid';
 
-import { getCurrentEpoch } from '../../util.js';
+import { copyToClipboard, getCurrentEpoch, paste } from '../../util.js';
 
 import { doPrompt } from '../../components/prompt/prompt.js';
 
@@ -41,7 +41,7 @@ export function newTodoMain(): void {
     $todo.update((todo) => {
         const newName = prompt('Enter new name', todo.name + ' (new)');
         
-        if (newName != null && confirm('Are you sure')) {
+        if (newName != null && confirm('Are you sure?')) {
             todo.name = newName || 'unnamed';
             todo.createdTime = getCurrentEpoch();
             todo._id = uuidv4();
@@ -112,6 +112,26 @@ export function removeTodoList(listIndex: number) {
 
 }
 
+export function copyTodoList(listIndex: number): void {
+    const todoLists = $todo.get().todoLists;
+    const content = JSON.stringify(todoLists[listIndex]);
+
+    copyToClipboard(content);
+}
+
+export async function pasteTodoList(): void {
+    const text = await paste();
+    if (text.indexOf('"todoItems"') > -1) {
+
+        $todo.update(todo => {
+            todo.todoLists.push(JSON.parse(text));
+            return todo;
+        })
+
+    } else {
+        alert('not supported')
+    }
+}
 
 export function setTodoListName(listIndex: number, name: string): void {
    

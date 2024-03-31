@@ -12,4 +12,19 @@ export function crop(s: string) {
     } else {
       return s;
     }
-  }
+}
+
+export async function copyToClipboard(input: string | null) {
+  if (!input) return;
+  
+  const type = "text/plain";
+  const blob = new Blob([input], { type });
+  const data = [new ClipboardItem({ [type]: blob })];
+  await navigator.clipboard.write(data);
+  
+  alert("Copied.");
+}
+
+export async function paste(): Promise<string> {
+  return navigator.clipboard.readText()
+}

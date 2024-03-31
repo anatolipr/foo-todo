@@ -2,7 +2,7 @@
   import Card from './Card.svelte';
   import Minimized from './Minimized.svelte';
   import Prompt from './components/prompt/Prompt.svelte'
-  import { $todo as todo, addTodoList, renameTodoMain, newTodoMain, about } from './data/todo/todoStore.js';
+  import { $todo as todo, addTodoList, renameTodoMain, newTodoMain, pasteTodoList, about } from './data/todo/todoStore.js';
   import { open, save } from './data/fs/importExport.js'
 </script>
 <div
@@ -27,6 +27,10 @@
           style="width: 46px; height: 46px"
           class="todo-plus-btn"
           on:click="{() => addTodoList('Unnamed', true)}"></div>
+      <div
+          style="width: 46px; height: 46px"
+          class="paste-icon"
+          on:click="{pasteTodoList}"></div>
   </div>
   <Minimized />
 </div>
@@ -63,5 +67,10 @@
   .main-menu:hover {
     background-color: #3c3c3c;
   }
+  .paste-icon {
+    content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1em' height='1em' viewBox='0 0 24 24'%3E%3Cg fill='none' stroke='white' stroke-linecap='round' stroke-linejoin='round' stroke-width='2'%3E%3Cpath d='M15 2H9a1 1 0 0 0-1 1v2c0 .6.4 1 1 1h6c.6 0 1-.4 1-1V3c0-.6-.4-1-1-1'/%3E%3Cpath d='M8 4H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2M16 4h2a2 2 0 0 1 2 2v2m-9 6h10'/%3E%3Cpath d='m17 10l4 4l-4 4'/%3E%3C/g%3E%3C/svg%3E");
+    cursor: pointer
+  }
+
   * {box-sizing: border-box}
 </style>
