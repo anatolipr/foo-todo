@@ -2,12 +2,22 @@
   import Card from './Card.svelte';
   import Minimized from './Minimized.svelte';
   import Prompt from './components/prompt/Prompt.svelte'
-  import { $todo as todo, addTodoList } from './data/todo/todoStore.js';
+  import { $todo as todo, addTodoList, renameTodoMain, newTodoMain, about } from './data/todo/todoStore.js';
+  import { open, save } from './data/fs/importExport.js'
 </script>
 <div
   style="position: relative; overflow: hidden; max-width: 100vw; width: 100vw"
   class="todo-app">
-  <div style="font-size: 34px">Foo Todo:</div>
+  <div
+      style="gap: 5px; padding: 2px; background-color: #000000; display: flex">
+      <div style="font-size: 16px; flex: 1" on:click="{about}">Foo Todo</div>
+      <div class="main-menu" on:click="{open}">Open</div>
+      <div class="main-menu" on:click="{save}">Export</div>
+      <div class="main-menu" on:click="{newTodoMain}">New</div>
+  </div>
+  <div class="file-name" on:click="{renameTodoMain}">
+      {$todo.name || 'Unnamed'}
+  </div>
   <div style="overflow: scroll" class="todo-ribbon" id="root">
       {#each $todo.todoLists as todoList, idx}
       <Card todo="{todoList}" idx="{idx}" />
@@ -42,5 +52,16 @@
     cursor: pointer
   }
 
+  .file-name {
+    font-size: 34px;
+  }
+
+  .main-menu {
+    padding: 2px;
+    cursor: pointer
+  }
+  .main-menu:hover {
+    background-color: #3c3c3c;
+  }
   * {box-sizing: border-box}
 </style>

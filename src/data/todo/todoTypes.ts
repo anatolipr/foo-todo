@@ -2,8 +2,9 @@
 export type TodoMain = {
     _id?: string;
     name?: string;
-    todoLists: TodoList[],
-    minimizedTodoLists: TodoList[]
+    todoLists: TodoList[];
+    minimizedTodoLists: TodoList[];
+    createdTime?: number;
     key?: number
 }
 

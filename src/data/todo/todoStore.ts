@@ -18,6 +18,42 @@ $todo.subscribe((todo: Readonly<TodoMain>) => {
     localStorage?.setItem('fooTodos', JSON.stringify(todo))
 }, false)
 
+export function about(): void {
+    alert('Foo Todo by Anatoli Radulov')
+}
+
+//***** Main *****
+
+export function renameTodoMain(): void {
+
+    $todo.update((todo) => {
+        const newName = prompt('Enter new name', todo.name);
+        if (newName !== null) {
+            todo.name = newName
+        }
+        return todo;
+    })
+
+}
+
+export function newTodoMain(): void {
+
+    $todo.update((todo) => {
+        const newName = prompt('Enter new name', todo.name + ' (new)');
+        
+        if (newName != null && confirm('Are you sure')) {
+            todo.name = newName || 'unnamed';
+            todo.createdTime = getCurrentEpoch();
+            todo._id = uuidv4();
+            todo.todoLists = [];
+            todo.minimizedTodoLists = [];
+        }
+
+        return todo;
+    })
+    
+}
+
 //***** Lists ******
 
 export async function addTodoList(name: string = "Unnamed", shouldPrompt: boolean = false): Promise<void> {

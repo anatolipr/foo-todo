@@ -13,7 +13,6 @@ export type File = {
     contentId: string;
 }
 
-
 /**
  * current folder representatoin for use by views
  * typically used with a function which retrieves a view based on parent - eg. Fruits
@@ -22,7 +21,3 @@ export type FolderView {
     parent?: string;
     files: File[]
 }
-
-
-
-
