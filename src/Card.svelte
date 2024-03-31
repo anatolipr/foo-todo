@@ -1,6 +1,6 @@
 <script lang="ts">
   import { type TodoList } from "./data/todo/todoTypes";
-  import { crop } from "./util.js";
+  import { crop } from "avos/src/util.js";
   export let todo: TodoList;
   export let idx: number;
 

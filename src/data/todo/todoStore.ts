@@ -2,13 +2,10 @@ import type {TodoItem, TodoList, TodoListTextAndMeta, TodoMain, TodoStats} from 
 
 import Foo from 'avos/src/foo-store/foo.js'
 import { tick } from 'svelte'
-
 import { v4 as uuidv4 } from 'uuid';
-
-import { copyToClipboard, getCurrentEpoch, paste } from '../../util.js';
+import { copyToClipboard, getCurrentEpoch, paste } from 'avos/src/util.js';
 
 import { doPrompt } from '../../components/prompt/prompt.js';
-
 
 export const $todo: Foo<TodoMain> = new Foo<TodoMain>({
     ... JSON.parse(localStorage?.getItem('fooTodos')||'{ "todoLists":[], "minimizedTodoLists": [] }')
@@ -103,7 +100,7 @@ export function setTodoListNewValue(listIndex: number, newValue: string): void {
 }
 
 export function removeTodoList(listIndex: number) {
-    if (!confirm('are you sure?')) {
+    if (!confirm('Are you sure?')) {
         return
     }
     const todoLists = $todo.get().todoLists;
@@ -119,7 +116,7 @@ export function copyTodoList(listIndex: number): void {
     copyToClipboard(content);
 }
 
-export async function pasteTodoList(): void {
+export async function pasteTodoList(): Promise<void> {
     const text = await paste();
     if (text.indexOf('"todoItems"') > -1) {
 
@@ -129,7 +126,7 @@ export async function pasteTodoList(): void {
         })
 
     } else {
-        alert('not supported')
+        alert('not supported');
     }
 }
 
@@ -137,8 +134,8 @@ export function setTodoListName(listIndex: number, name: string): void {
    
     const todoLists = $todo.get().todoLists;
     todoLists[listIndex].name = name;
-    todoLists[listIndex].key = Math.random()
-    $todo.update(todo => {todo.todoLists = todoLists; return todo})
+    todoLists[listIndex].key = Math.random();
+    $todo.update(todo => {todo.todoLists = todoLists; return todo});
 
 }
 
