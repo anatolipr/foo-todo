@@ -1,6 +1,6 @@
 <script lang="ts">
     import { restoreTodoList } from './data/todo/todoStore.js';
-    import { crop } from "./util.js";
+    import { crop } from "avos/src/util.js";
     import { $todo as todo } from './data/todo/todoStore.js';
 </script>
 {#if $todo.minimizedTodoLists.length > 0}
@@ -8,7 +8,7 @@
     <div style="gap: 10px; display: flex">later</div>
     <div style="gap: 5px; display: flex">
         {#each $todo.minimizedTodoLists as todo, idx}
-        <div
+        <div role="none"
             style="background-color: {todo.color}"
             class="minimized-card"
             on:click="{ () => restoreTodoList(idx) }">
