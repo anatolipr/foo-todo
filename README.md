@@ -1,3 +1,3 @@
 # Svelte + TS + Vite + Vitest + Foo store
 
-todo demo
+[demo](https://footodo.netlify.app/)
